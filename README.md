@@ -46,11 +46,23 @@ It supports multiple local LLM backends, filesystem access, command execution, a
 ### ⚙️ Installation/ Setup
 
 1. Fork the reop on your github.
-2. Execute the command `git clone https://github.com/<your-username>/kagent.git`.
-3. Move into the directory `cd kagent`.
-4. Create virtual enviornment `python -m venv .`, and activate it.
-5. Install dependencies `pip install -r requirements.txt
-`.
+2. Execute the command 
+```bash 
+git clone https://github.com/<your-username>/kagent.git
+```
+3. Move into the directory 
+```
+cd kagent
+```
+4. Create virtual enviornment, and activate it. 
+```bash
+python -m venv .
+.\.venv\Scripts\activate
+```
+5. Install dependencies 
+```
+pip install -r requirements.txt
+```
 6. Download [ollama](https://ollama.com/) and install it.
 7. After ollama is successfully installed run `ollama pull llama3`, and verify it by `ollama run llama3`.
 
