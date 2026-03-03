@@ -56,8 +56,14 @@ cd kagent
 ```
 4. Create virtual enviornment, and activate it. 
 ```bash
-python -m venv .
-.\.venv\Scripts\activate
+python -m venv venv
+
+# windows
+.\venv\Scripts\activate
+
+# linux / mac
+source venv/bin/activate
+
 ```
 5. Install dependencies 
 ```
@@ -66,3 +72,4 @@ pip install -r requirements.txt
 6. Download [ollama](https://ollama.com/) and install it.
 7. After ollama is successfully installed run `ollama pull llama3`, and verify it by `ollama run llama3`.
 
+Alternatively, you can run the **setup.py** file.
