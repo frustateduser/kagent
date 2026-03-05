@@ -1,0 +1,4 @@
+# cli design dependencies
+typer==0.24.1
+rich==14.3.3
+questionary==2.1.1
