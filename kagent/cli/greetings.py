@@ -10,7 +10,6 @@ from prompt_toolkit.styles import Style
 app = typer.Typer()
 console = Console()
 
-
 BANNER = r"""
 ██╗  ██╗    █████╗  ██████╗ ███████╗███╗   ██╗████████╗
 ██║ ██╔╝   ██╔══██╗██╔════╝ ██╔════╝████╗  ██║╚══██╔══╝
@@ -63,19 +62,27 @@ def start():
         TextColumn("[progress.description]{task.description}"),
         transient=True,
     ) as progress:
-
-        progress.add_task(description="Starting kagent agent...", total=None)
+        task = progress.add_task("Starting kagent agent...", total=None)
         time.sleep(1)
 
-        progress.add_task(description="Loading models...", total=None)
+        progress.update(task, description="Loading models...")
         time.sleep(1.5)
 
-        progress.add_task(description="Initializing tools...", total=None)
+        progress.update(task, description="Initializing tools...")
+
         time.sleep(1)
 
     console.print("✨ [bold green]kagent ready![/bold green]\n")
 
-    console.print("[yellow]Start typing your prompt...[/yellow]")
+    # Custom prompt based on mode
+    if mode == "ask":
+        console.print("[yellow]Start typing your question...[/yellow]")
+
+    elif mode == "code":
+        console.print("[yellow]Start typing your prompt...[/yellow]")
+
+    elif mode == "brainstorm":
+        console.print("[yellow]Start typing your idea...[/yellow]")
 
 
 if __name__ == "__main__":
