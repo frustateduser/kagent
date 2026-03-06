@@ -1,4 +1,5 @@
 import typer
+import sys
 import questionary
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
@@ -27,7 +28,7 @@ KAgent is a locally running AI agent system designed to assist you in daily task
 
 
 def show_banner():
-    console.print(Panel(BANNER, style="green"))
+    console.print(Panel.fit(BANNER, style="green"))
 
 
 @app.command()
@@ -51,9 +52,14 @@ def start():
             Choice("ask  → Ask questions / research", value="ask"),
             Choice("code → Generate or debug code", value="code"),
             Choice("brainstorm → Ideas, architecture, planning", value="brainstorm"),
+            Choice("Exit → Exit kagent", value="exit")
         ],
         style=custom_style,
     ).ask()
+
+    if mode == "exit":
+        console.print("[bold red]Exiting kagent...[/bold red]")
+        sys.exit(0)
 
     console.print(f"\n[bold cyan]Mode selected:[/bold cyan] {mode}\n")
 
