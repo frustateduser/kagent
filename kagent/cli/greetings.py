@@ -6,6 +6,7 @@ from rich.panel import Panel
 from questionary import Choice
 import time
 from prompt_toolkit.styles import Style
+from kagent.core.chat_loop import start_chat 
 
 app = typer.Typer()
 console = Console()
@@ -77,12 +78,15 @@ def start():
 
     if mode == "ask":
         console.print("[yellow]Start typing your question...[/yellow]")
+        start_chat()
 
     elif mode == "code":
         console.print("[yellow]Start typing your prompt...[/yellow]")
+        start_chat()
 
     elif mode == "brainstorm":
         console.print("[yellow]Start typing your idea...[/yellow]")
+        start_chat()
 
 
 if __name__ == "__main__":

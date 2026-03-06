@@ -1,2 +1,2 @@
-from kagent.cli.greetings import banner
-banner()
+from kagent.cli.greetings import start
+start()
