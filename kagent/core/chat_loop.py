@@ -1,5 +1,7 @@
 from kagent.history.convo_memory import ConversationMemory
 from kagent.models.ollama_model import OllamaModel
+from kagent.logging.chat_logger import ChatLogger
+from kagent.core.response_formatter import print_formatted_response
 
 
 # This function starts the interactive chat session
@@ -8,12 +10,14 @@ def start_chat():
     memory = ConversationMemory()
     # Create a model object to interact with the LLM
     model = OllamaModel()
+    chatLogger = ChatLogger() # initialize object for conversation logging
 
     print("\nType 'exit' to quit\n")
 
     while True:
 
         user_input = input("You: ")
+        chatLogger.log_user(user_input) # logs user message 
 
         if user_input.lower() in ["exit", "quit"]:
             break
@@ -30,6 +34,7 @@ def start_chat():
 
         # Store the AI response in the memory
         memory.add_ai_message(response)
+        chatLogger.log_agent(response) # logs agent response
 
-        print("\nAI:", response)
+        print_formatted_response(response)
         print()
