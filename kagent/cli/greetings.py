@@ -1,4 +1,4 @@
-import typer
+import typer 
 import sys
 import questionary
 from rich.console import Console
@@ -30,7 +30,8 @@ KAgent is a locally running AI agent system designed to assist you in daily task
 def show_banner():
     console.print(Panel.fit(BANNER, style="green"))
 
-
+# This defines a CLI command called "start"
+# When user runs: kagent  → this function executes
 @app.command()
 def start():
     """Start kagent interactive session"""
@@ -63,12 +64,13 @@ def start():
 
     console.print(f"\n[bold cyan]Mode selected:[/bold cyan] {mode}\n")
 
-    # Spinner effect
+    # Show a spinner loading animation
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
         transient=True,
     ) as progress:
+        
         task = progress.add_task("Starting kagent agent...", total=None)
         time.sleep(1)
 
@@ -94,6 +96,3 @@ def start():
         console.print("[yellow]Start typing your idea...[/yellow]")
         start_chat()
 
-
-if __name__ == "__main__":
-    app()
