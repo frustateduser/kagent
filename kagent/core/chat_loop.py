@@ -4,9 +4,19 @@ from kagent.logging.chat_logger import ChatLogger
 from kagent.core.response_formatter import print_formatted_response
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.console import Console  #used for different color of user input
-
+from prompt_toolkit import PromptSession
+from prompt_toolkit.key_binding import KeyBindings
 
 console = Console()
+kb = KeyBindings()
+
+#ctrl+enter will submit the message
+@kb.add("c-d")
+def _(event):
+    event.app.exit(result=event.app.current_buffer.text)
+    
+#create prompt session    
+session = PromptSession(key_bindings=kb)
 # This function starts the interactive chat session
 def start_chat():
     # Create a memory object to store conversation history
@@ -15,14 +25,15 @@ def start_chat():
     model = OllamaModel()
     chatLogger = ChatLogger() # initialize object for conversation logging
 
-    print("\nType 'exit' to quit\n")
+    console.print("[red]\nType 'exit' to quit[/red]\n")
+    console.print("[red]Press 'ctrl+D' to send the message[/red]\n")
 
     while True:
 
         console.print("[bold red]You:[/bold red] ",end="")
-        user_input = input()
-        chatLogger.log_user(user_input) # logs user message 
-
+        
+        #multi-line input
+        user_input = session.prompt(multiline=True)
 
         if user_input.lower() in ["exit", "quit"]:
             break

@@ -26,3 +26,4 @@ print("Ollama downloaded")
 subprocess.run(["ollama", "pull", "llama3.1:latest"])
 
 print("Ollama pulled llama3.1:latest successfully")
+
