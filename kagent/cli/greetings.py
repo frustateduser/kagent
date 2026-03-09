@@ -38,7 +38,7 @@ def start():
 
     show_banner()
 
-    console.print("[bold green]Welcome to kagent[/bold green] 🤖\n")
+    console.print("[bold green]Welcome to kagent[/bold green] \n")
 
     custom_style = Style.from_dict({
         "question": "bold",
@@ -50,9 +50,9 @@ def start():
     mode = questionary.select(
         "What do you want to do?",
         choices=[
-            Choice("ask  → Ask questions / research", value="ask"),
-            Choice("code → Generate or debug code", value="code"),
-            Choice("brainstorm → Ideas, architecture, planning", value="brainstorm"),
+            Choice("Ask questions / research", value="ask"),
+            Choice("Generate or debug code", value="code"),
+            Choice("Ideas, architecture, planning", value="brainstorm"),
             Choice("Exit → Exit kagent", value="exit")
         ],
         style=custom_style,
@@ -81,7 +81,7 @@ def start():
 
         time.sleep(1)
 
-    console.print("✨ [bold green]kagent ready![/bold green]\n")
+    console.print("[bold green]kagent ready![/bold green]\n")
 
 
     if mode == "ask":
