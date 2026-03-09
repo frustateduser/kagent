@@ -30,7 +30,7 @@ def start_chat():
 
     while True:
 
-        console.print("[bold red]You:[/bold red] ",end="")
+        console.print("[bold red]You:[/bold red] \n",end="")
         
         #multi-line input
         user_input = session.prompt(multiline=True)
