@@ -6,7 +6,7 @@ from datetime import datetime
 # ChatLogger
 # for creating a convenient user readable markdown file for a session
 class ChatLogger:
-    def __init__(self, log_dir: str="kagent/logs/chats"):
+    def __init__(self, log_dir: str="logs/chats"):
         self.session_id = str(uuid.uuid4()) # unique identification for chats/session
         self.start_time = datetime.now() # time stamp
         self.log_dir = Path(log_dir)
