@@ -27,10 +27,12 @@ def start_chat():
 
     console.print("[red]\nType 'exit' to quit[/red]\n")
     console.print("[red]Press 'ctrl+D' to send the message[/red]\n")
+    console.print("[red]\nType 'exit' to quit[/red]\n")
+    console.print("[red]Press 'ctrl+D' to send the message[/red]\n")
 
     while True:
 
-        console.print("[bold red]You:[/bold red] \n",end="")
+        console.print("[bold red]You:[/bold red] ",end="")
         
         #multi-line input
         user_input = session.prompt(multiline=True)
