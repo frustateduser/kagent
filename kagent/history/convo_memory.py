@@ -1,6 +1,8 @@
 class ConversationMemory:
-    def __init__(self):
+    def __init__(self, system_prompt : str):
         self.history = []
+        self.history.append({"role": "system","content":system_prompt})
+    
     # This method adds a message from the user to the conversation history
     # The message is stored as a dictionary with role "user"    
     def add_user_message(self, message):
