@@ -38,3 +38,14 @@ class ChatLogger:
             f.write("\n## Agent\n")
             f.write(message + "\n")
             f.write("\n---\n")
+
+    def log_tool(self, tool_response):
+        tool = tool_response.get("tool")
+        input = tool_response.get("input")
+        output = tool_response.get("output")
+
+        with open(self.file_path, "a", encoding="utf-8") as f:
+            f.write(f"\n## Tool: {tool}\n")
+            f.write(f"Input: {input}\n")
+            f.write(f"Output: {output}\n")
+            f.write("\n---\n")

@@ -7,6 +7,7 @@ from kagent.core.response_formatter import print_formatted_response
 from kagent.history.convo_memory import ConversationMemory
 from kagent.logging.chat_logger import ChatLogger
 from kagent.models.ollama_model import OllamaModel
+from kagent.tools.command_execution import CommandExecution
 
 
 """
@@ -23,6 +24,7 @@ class ChatLoop:
         self.memory = ConversationMemory(system_prompt)
         self.model = OllamaModel()
         self.chat_logger = ChatLogger()
+        self.command_execution = CommandExecution()
 
 
         session = self.create_prompt_session()
@@ -45,10 +47,7 @@ class ChatLoop:
             self.memory.add_user_message(user_input)
 
             # Generate AI response
-            response = self.generate_ai_response(self.model, self.memory)
-
-            # Store conversation
-            self.memory.add_ai_message(response.get("content", ""))
+            response = self.loop()
 
             # Log response
             self.chat_logger.log_agent(response)
@@ -86,3 +85,63 @@ class ChatLoop:
             response = model.generate(memory.get_history())
 
         return response
+
+    def loop(self):
+        """
+        Runs until the model returns a final response following ReACT loop
+        """
+
+        while True:
+            # Generate AI response
+            response = self.generate_ai_response(self.model, self.memory)
+            # store AI response
+            self.memory.add_ai_message(response.get("content", ""))
+            if response.get("type") == "final":
+                return response
+            elif response.get("type") == "tool":
+                tool_name = response.get("tool")
+                tool_input = response.get("input")
+                tool_result = self.handle_tool(tool_name, tool_input)
+                tool_message = self.format_tool_result(tool_name, tool_result)
+                self.memory.add_ai_message(tool_message)
+                self.chat_logger.log_tool({
+                    "tool": tool_name, 
+                    "input":tool_input, 
+                    "output":tool_result
+                })
+            else:
+                self.memory.add_ai_message(response.get("content", ""))
+                self.chat_logger.log_agent(response)
+                return response
+            
+    def handle_tool(self, tool_name, tool_input):
+        match tool_name:
+            case "shell":
+                result = self.command_execution.execute(tool_input)
+                return result
+            case "read_file":
+                return "Not Implemented"
+            case "write_file":
+                return "Not Implemented"
+            case _:
+                return f"Unknown tool: {tool_name}"
+
+    def format_tool_result(self, tool_name, tool_result):
+        """
+        Format to LLM readable format results
+        """
+        if isinstance(tool_result, dict):
+            output = tool_result.get("output", "")
+            status = tool_result.get("status", "")
+        else:
+            output = str(tool_result)
+            status = "unknown"
+
+        return f"""
+            Role: Tool
+            Tool: {tool_name}
+            Status: {status}
+
+            Output:
+            {output}
+        """

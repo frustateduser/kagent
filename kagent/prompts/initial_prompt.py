@@ -60,6 +60,7 @@ Tool Usage:
     1. read_file: used to read the contents of a file, input for the tool is an absolute path to the file.
     2. write_file: for writing to a file or editing it, input for the tool is an absolute path to the file and the text to write in form of an array of strings.
     3. shell: for executing commands, input for the tool is an array of strings for each word/character/symbol in the command.
+    
 Chaining and Reasoning:
 
 - Think step-by-step for multi-hop questions. You may write intermediary thoughts as long as you ultimately present a clear final answer.
@@ -68,7 +69,6 @@ Chaining and Reasoning:
 Response Format:
 - Strictly stick to following response types:
     - tool
-    - thinking
     - final
 - When you have to use a tool, output only a JSON object following this schema:  
 ```json
@@ -76,13 +76,6 @@ Response Format:
         "type":"tool",
         "tool":"<tool-name>",
         "input":"<tool-input>"
-    }
-```.
-- When you have to think and make a decision, output only a JSON object following this schema:  
-```json
-    {
-        "type":"thinking"
-        "content":"<thinking-text>"
     }
 ```.
 - When you have the final answer, output only a JSON object following this schema:  
