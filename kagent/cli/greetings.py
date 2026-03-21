@@ -18,6 +18,7 @@ from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from kagent.core.chat_loop import ChatLoop
+from kagent.prompts.initial_prompt import prompt
 
 
 app = typer.Typer()
@@ -96,15 +97,15 @@ def start_chat_mode(mode: str) -> None:
 
     if mode == "ask":
         console.print("[yellow]Start typing your question...[/yellow]")
-        start_chat = ChatLoop()
+        start_chat = ChatLoop(prompt)
 
     elif mode == "code":
         console.print("[yellow]Start typing your prompt...[/yellow]")
-        start_chat = ChatLoop()
+        start_chat = ChatLoop(prompt)
 
     elif mode == "brainstorm":
         console.print("[yellow]Start typing your idea...[/yellow]")
-        start_chat = ChatLoop()
+        start_chat = ChatLoop(prompt)
 
 
 @app.command()

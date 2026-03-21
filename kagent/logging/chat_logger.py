@@ -1,4 +1,5 @@
 import uuid
+import json
 from pathlib import Path
 from datetime import datetime
 
@@ -29,6 +30,9 @@ class ChatLogger:
             f.write(message + "\n")
 
     def log_agent(self, message: str):
+        if isinstance(message, dict):
+            message = json.dumps(message, indent=2)
+
         # log agent response
         with open(self.file_path, "a", encoding="utf-8") as f:
             f.write("\n## Agent\n")

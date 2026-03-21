@@ -7,7 +7,6 @@ from kagent.core.response_formatter import print_formatted_response
 from kagent.history.convo_memory import ConversationMemory
 from kagent.logging.chat_logger import ChatLogger
 from kagent.models.ollama_model import OllamaModel
-from kagent.tools.fileaccess import FileAccess
 
 
 """
@@ -16,14 +15,13 @@ Main chat loop handler for the kagent application.
 class ChatLoop:
     console = Console()
 
-    def __init__(self):
+    def __init__(self, system_prompt: str):
         """
         Start the interactive chat session.
         """
 
-        self.memory = ConversationMemory()
+        self.memory = ConversationMemory(system_prompt)
         self.model = OllamaModel()
-        self.file_tool = FileAccess(root_dir="kagent")
         self.chat_logger = ChatLogger()
 
 
@@ -46,24 +44,17 @@ class ChatLoop:
             self.chat_logger.log_user(user_input)
             self.memory.add_user_message(user_input)
 
-
-            # Tool: File Reading
-            if self.handle_file_read(user_input, self.file_tool):
-                continue
-
             # Generate AI response
             response = self.generate_ai_response(self.model, self.memory)
 
             # Store conversation
-            self.memory.add_ai_message(response)
+            self.memory.add_ai_message(response.get("content", ""))
 
             # Log response
             self.chat_logger.log_agent(response)
 
             # Display response
             print_formatted_response(response)
-
-    
 
 
     def create_prompt_session(self) -> PromptSession:
@@ -82,36 +73,12 @@ class ChatLoop:
         return PromptSession(key_bindings=kb)
 
 
-    def handle_file_read(self, user_input: str, file_tool: FileAccess) -> bool:
-        """
-        Handle file read command.
-
-        Returns True if command was handled.
-        """
-
-        if not user_input.lower().startswith("read file"):
-            return False
-
-        file_name = user_input.replace("read file", "").strip()
-
-        try:
-            file_content = file_tool.read_file(file_name)
-
-            self.console.print("\n[bold cyan]File content:[/bold cyan]\n")
-            self.console.print(file_content)
-
-        except Exception as e:
-            self.console.print(f"[bold red]Error reading file:[/bold red] {e}")
-
-        return True
-
-
     def generate_ai_response(self, model: OllamaModel, memory: ConversationMemory) -> str:
         """Generate response from LLM with spinner."""
 
         with Progress(
             SpinnerColumn(),
-            TextColumn("[bold cyan]AI is thinking..."),
+            TextColumn("[bold cyan]Generating response...[/bold cyan]"),
             transient=True,
         ) as progress:
 
