@@ -23,7 +23,7 @@ else:
 
 print("Ollama downloaded")
 
-subprocess.run(["ollama", "pull", "llama3.1:latest"])
+subprocess.run(["ollama", "pull", "llama3.1:latest"], check=True)
 
 print("Ollama pulled llama3.1:latest successfully")
 

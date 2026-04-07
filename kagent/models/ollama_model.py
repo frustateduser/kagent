@@ -1,6 +1,7 @@
 # Import the ollama library which allows us to interact with
 # locally running LLM models through the Ollama API
 import ollama
+import json
 from questionary import Choice
 import questionary
 from rich.console import Console
@@ -25,11 +26,14 @@ class OllamaModel:
         # Pass the selected model and the messages conversation
         response = ollama.chat(
             model= self.model,
+            format='json',
             messages=messages
         )
         # The response returned by Ollama is a dictionary
         # We extract only the actual generated text from it
-        return response["message"]["content"]
+        parsed = self.response_to_json(response)
+        
+        return parsed
     
 
     # fetch locally available ollama models 
@@ -40,4 +44,11 @@ class OllamaModel:
     # converts the models into choices to be chosen from (uses Choice from questioner library) 
     def model_choices(self):
         models = self.get_local_models()
-        return [Choice(title=f"{m}", value=m) for m in models]
+        return [Choice(title=f"{m}", value=m) for m in models]    
+    
+
+    # returned response is in string format converts the json string to an object
+    def response_to_json(self, response):
+        content = response["message"]["content"]
+        parsed = json.loads(content)
+        return parsed
