@@ -60,6 +60,7 @@ Tool Usage:
     1. read_file: used to read the contents of a file, input for the tool is an absolute path to the file.
     2. write_file: for writing to a file or editing it, input for the tool is an absolute path to the file and the text to write in form of an array of strings.
     3. shell: for executing commands, input for the tool is an array of strings for each word/character/symbol in the command.
+    4. list_files: for listing files in a directory, and its sub-directories,input for the tool is an absolute path to the directory.
     
 Chaining and Reasoning:
 
