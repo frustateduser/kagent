@@ -68,7 +68,7 @@ class FileAccess:
         full_path = self._resolve_path(file_path)
         
         #Debug 
-        print(f"[DEBUG] Reading from: {full_path}")
+        print(f"Reading from: {full_path}")
 
         # If file does not exist
         if not os.path.exists(full_path):

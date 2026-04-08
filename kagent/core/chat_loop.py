@@ -124,9 +124,9 @@ class ChatLoop:
             case "read_file":
                 return self.file_access.read_file(tool_input)
             case "write_file":
-                print(f"[DEBUG] write_file called with input: {tool_input}")
-                path = tool_input[0]
-                content = tool_input[1]
+                # print(f"[DEBUG] write_file called with input: {tool_input}")
+                path = tool_input[0].get('path')
+                content = tool_input[0].get('content')
                 return self.file_access.write_file(path, content)
             case _:
                 return f"Unknown tool: {tool_name}"
