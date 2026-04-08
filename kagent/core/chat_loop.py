@@ -8,7 +8,7 @@ from kagent.history.convo_memory import ConversationMemory
 from kagent.logging.chat_logger import ChatLogger
 from kagent.models.ollama_model import OllamaModel
 from kagent.tools.command_execution import CommandExecution
-
+from kagent.tools.fileaccess import FileAccess
 
 """
 Main chat loop handler for the kagent application.
@@ -25,7 +25,7 @@ class ChatLoop:
         self.model = OllamaModel()
         self.chat_logger = ChatLogger()
         self.command_execution = CommandExecution()
-
+        self.file_access = FileAccess()
 
         session = self.create_prompt_session()
 
@@ -119,10 +119,15 @@ class ChatLoop:
             case "shell":
                 result = self.command_execution.execute(tool_input)
                 return result
+            case "list_files":
+                return self.file_access.list_files(tool_input)
             case "read_file":
-                return "Not Implemented"
+                return self.file_access.read_file(tool_input)
             case "write_file":
-                return "Not Implemented"
+                print(f"[DEBUG] write_file called with input: {tool_input}")
+                path = tool_input[0]
+                content = tool_input[1]
+                return self.file_access.write_file(path, content)
             case _:
                 return f"Unknown tool: {tool_name}"
 
@@ -145,3 +150,4 @@ class ChatLoop:
             Output:
             {output}
         """
+        
