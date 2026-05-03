@@ -41,7 +41,7 @@
             "description": "A MCP server that provides news fetching capabilities. This server enables LLMs to retrieve and process news content from various sources, converting it into a format suitable for analysis and consumption.",
             "command": "python",
             "args":[
-                "kagent\\tools\\web_mcp\\__main__.py"
+                "kagent\\tools\\news_mcp\\__main__.py"
             ]
         }
     }

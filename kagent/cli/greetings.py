@@ -18,7 +18,7 @@ from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from kagent.core.chat_loop import ChatLoop
-from kagent.prompts.initial_prompt import prompt
+from kagent.prompts.__init__ import prompt
 
 
 app = typer.Typer()
@@ -61,10 +61,16 @@ def select_mode() -> str:
 
     mode = questionary.select(
         "What do you want to do?",
-        choices=[
+        choices = [
             Choice("Ask questions / research", value="ask"),
-            Choice("Generate or debug code", value="code"),
+            Choice("Generate code", value="code"),
+            Choice("Debug errors", value="debug"),
             Choice("Ideas, architecture, planning", value="brainstorm"),
+            Choice("Write content (email, blog, docs)", value="write"),
+            Choice("Review code / content", value="review"),
+            Choice("Step-by-step planning", value="plan"),
+            Choice("Analyze data / logs", value="analyze"),
+            Choice("Translate text", value="translate"),
             Choice("Exit → Exit kagent", value="exit"),
         ],
         style=get_prompt_style(),
@@ -97,15 +103,57 @@ def start_chat_mode(mode: str) -> None:
 
     if mode == "ask":
         console.print("[yellow]Start typing your question...[/yellow]")
-        start_chat = ChatLoop(prompt)
+        from kagent.prompts.ask import ask_prompt
+        final_prompt = prompt + "\n" + ask_prompt
+        start_chat = ChatLoop(final_prompt)
 
     elif mode == "code":
         console.print("[yellow]Start typing your prompt...[/yellow]")
-        start_chat = ChatLoop(prompt)
+        from kagent.prompts.code import code_prompt
+        final_prompt = prompt + "\n" + code_prompt
+        start_chat = ChatLoop(final_prompt)
+
+    elif mode == "debug":
+        console.print("[yellow]Start typing your prompt...[/yellow]")
+        from kagent.prompts.debug import debug_prompt
+        final_prompt = prompt + "\n" + debug_prompt
+        start_chat = ChatLoop(final_prompt)
 
     elif mode == "brainstorm":
         console.print("[yellow]Start typing your idea...[/yellow]")
-        start_chat = ChatLoop(prompt)
+        from kagent.prompts.brainstorm import brainstorm_prompt
+        final_prompt = prompt + "\n" + brainstorm_prompt
+        start_chat = ChatLoop(final_prompt)
+    
+    elif mode == "write":
+        console.print("[yellow]Start typing your prompt...[/yellow]")
+        from kagent.prompts.write import write_prompt
+        final_prompt = prompt + "\n" + write_prompt
+        start_chat = ChatLoop(final_prompt)
+
+    elif mode == "review":
+        console.print("[yellow]Start typing your prompt...[/yellow]")
+        from kagent.prompts.review import review_prompt
+        final_prompt = prompt + "\n" + review_prompt
+        start_chat = ChatLoop(final_prompt)
+
+    elif mode == "plan":
+        console.print("[yellow]Start typing your prompt...[/yellow]")
+        from kagent.prompts.plan import plan_prompt
+        final_prompt = prompt + "\n" + plan_prompt
+        start_chat = ChatLoop(final_prompt)
+
+    elif mode == "analyze":
+        console.print("[yellow]Start typing your prompt...[/yellow]")
+        from kagent.prompts.analyze import analyze_prompt
+        final_prompt = prompt + "\n" + analyze_prompt
+        start_chat = ChatLoop(final_prompt)
+
+    elif mode == "translate":
+        console.print("[yellow]Start typing your prompt...[/yellow]")
+        from kagent.prompts.translate import translate_prompt
+        final_prompt = prompt + "\n" + translate_prompt
+        start_chat = ChatLoop(final_prompt)
 
 
 @app.command()
