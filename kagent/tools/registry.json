@@ -1,0 +1,48 @@
+{
+    "mcpServers": {
+        "fetch": {
+            "description": "A Model Context Protocol server that provides web content fetching capabilities. This server enables LLMs to retrieve and process content from web pages, converting HTML to markdown for easier consumption.",
+            "command": "python",
+            "args": [
+                "-m",
+                "mcp_server_fetch"
+            ]
+        },
+        "git": {
+            "description": "A Model Context Protocol server for Git repository interaction and automation. This server provides tools to read, search, and manipulate Git repositories via Large Language Models.",
+            "command": "python",
+            "args": [
+                "-m",
+                "mcp_server_git",
+                "--repository",
+                "path/to/git/repo"
+            ]
+        },
+        "memory": {
+            "description": "A persistent memory using a local knowledge graph. This lets LLM remember information about the user across chats.",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-memory"
+            ],
+            "env": {
+                "MEMORY_FILE_PATH": "kagent\\knowledgeBase\\memory.jsonl"
+            }
+        },
+        "sequential-thinking": {
+            "description": "An MCP that provides a tool for dynamic and reflective problem-solving through a structured thinking process.",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-sequential-thinking"
+            ]
+        },
+        "news_mcp":{
+            "description": "A MCP server that provides news fetching capabilities. This server enables LLMs to retrieve and process news content from various sources, converting it into a format suitable for analysis and consumption.",
+            "command": "python",
+            "args":[
+                "kagent\\tools\\web_mcp\\__main__.py"
+            ]
+        }
+    }
+}
