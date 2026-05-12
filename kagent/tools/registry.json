@@ -15,7 +15,7 @@
                 "-m",
                 "mcp_server_git",
                 "--repository",
-                "path/to/git/repo"
+                "C:\\code\\my-projects\\kagent"
             ]
         },
         "memory": {
