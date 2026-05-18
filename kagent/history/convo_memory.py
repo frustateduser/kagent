@@ -10,6 +10,9 @@ class ConversationMemory:
     
     def add_ai_message(self, message):
         self.history.append({"role": "assistant","content":message})
+
+    def add_system_message(self, message):
+        self.history.append({"role": "system","content":message})
     
     # This method returns the full conversation history
     # The history will be used when sending messages to the LLM
